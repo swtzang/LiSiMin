@@ -5,15 +5,14 @@ library(xts)
 library(tidyverse)
 library(stringr)
 library(scales)
-alldata<- read.csv("E:/shu/monday/stock16_19.csv",header=T,sep=",",stringsAsFactors = F)
-
+alldata<- read.csv("stock16_19.csv",header=T,sep=",",stringsAsFactors = F)
 #remove na column
 na_flag <- apply(is.na(alldata), 2, sum)
 data19 <- alldata[,which(na_flag == 0)]
 
 #set index of objects
-data19$¦~¤ë¤é <- as.Date(data19$¦~¤ë¤é,format="%Y/%m/%d")
-data19 <- as.xts(x =data19[,2:ncol(data19)],order.by = data19$¦~¤ë¤é)
+data19$å¹´æœˆæ—¥ <- as.Date(data19$å¹´æœˆæ—¥,format="%Y/%m/%d")
+data19 <- as.xts(x =data19[,2:ncol(data19)],order.by = data19$?~????)
 
 #split data with time
 data16 <-window(data19, start = "2016-01-01", end ="2016-12-31")
@@ -54,59 +53,59 @@ for (i in 1:3){
   tesdata[[i]]<- tesdata[[i]][-nrow(tesdata[[i]]),]
   tesdata[[i]]<- lapply(tesdata[[i]],function(x)tesdata[[i]]+Era[1:nrow(Era),])
   tesdata[[i]]<- as.data.frame(tesdata[[i]][1])
-  colnames(tesdata[[i]]) <- c("³Ì°ª»ù","¤¤»ù","¥­§¡»ù","³Ì§C»ù")
+  colnames(tesdata[[i]]) <- c("?Ì°???","????","??????","?Ì§C??")
 }
 
 #fixed list table
-fina16<- rownames_to_column(tesdata[[1]], "ªÑ²¼¦WºÙ")
-fina17<- rownames_to_column(tesdata[[2]], "ªÑ²¼¦WºÙ")
-fina18<- rownames_to_column(tesdata[[3]], "ªÑ²¼¦WºÙ")
+fina16<- rownames_to_column(tesdata[[1]], "?Ñ²??W??")
+fina17<- rownames_to_column(tesdata[[2]], "?Ñ²??W??")
+fina18<- rownames_to_column(tesdata[[3]], "?Ñ²??W??")
 
 #filter
 tumax17 <- as.data.frame(apply(data17,2,max))
-tumax17 <- rownames_to_column(tumax17,"ªÑ²¼¦WºÙ")
+tumax17 <- rownames_to_column(tumax17,"?Ñ²??W??")
 tumax17 <- tumax17[-nrow(tumax17),]
 tumax18 <- as.data.frame(apply(data18,2,max))
-tumax18 <- rownames_to_column(tumax18,"ªÑ²¼¦WºÙ")
+tumax18 <- rownames_to_column(tumax18,"?Ñ²??W??")
 tumax18 <- tumax18[-nrow(tumax18),]
 finatb <- filter(fina18,fina16[,3]<tumax17[,2]&fina17[,3]<tumax18[,2])
-a <- as.data.frame(str_split_fixed(finatb$ªÑ²¼¦WºÙ, "¦¬½L»ù...", 2))
+a <- as.data.frame(str_split_fixed(finatb$?Ñ²??W??, "???L??...", 2))
 a <-as.data.frame( a[,-1])
 b <- as.data.frame(gsub("\\.", "",a[,1]))
-colnames(b)[1] <- "ªÑ²¼¦WºÙ"
-finatb["ªÑ²¼¦WºÙ"] <- b["ªÑ²¼¦WºÙ"]
+colnames(b)[1] <- "?Ñ²??W??"
+finatb["?Ñ²??W??"] <- b["?Ñ²??W??"]
 rm(a,b)
 eps <- read.csv("E:/shu/monday/EPS.csv",header=T,sep=",",stringsAsFactors = F)
 ocf <- read.csv("E:/shu/monday/Operating Cash Flow.csv",header=T,sep=",",stringsAsFactors = F)
 a<- as.data.frame(sapply(eps[1],function(x){gsub(" ","",x)})) 
-eps["¤½¥q"] <- a["¤½¥q"]
-colnames(eps)[1] <- "ªÑ²¼¦WºÙ"
+eps["???q"] <- a["???q"]
+colnames(eps)[1] <- "?Ñ²??W??"
 b<- as.data.frame(sapply(ocf[1],function(x){gsub(" ","",x)})) 
-ocf["¤½¥q"] <- b["¤½¥q"]
-colnames(ocf)[1] <- "ªÑ²¼¦WºÙ"
+ocf["???q"] <- b["???q"]
+colnames(ocf)[1] <- "?Ñ²??W??"
 rm(a,b)
-finatb <- merge(finatb,eps,by="ªÑ²¼¦WºÙ")
-finatb <- merge(finatb,ocf,by="ªÑ²¼¦WºÙ")
+finatb <- merge(finatb,eps,by="?Ñ²??W??")
+finatb <- merge(finatb,ocf,by="?Ñ²??W??")
 finatb <- na.omit(finatb)
 finatb <- finatb[,-c(6:15)]
 
 #remove strange word 
 newprice <- newprice[,-ncol(newprice)]%>%t()
 newprice <- as.data.frame(newprice)
-newprice <- rownames_to_column(newprice,"ªÑ²¼¦WºÙ")
+newprice <- rownames_to_column(newprice,"?Ñ²??W??")
 a<- as.data.frame(gsub("\\.", "",newprice[,1]))
-a <- as.data.frame(gsub("[¦¬½L»ù]", "", a[,1]))
-colnames(a) <- "ªÑ²¼¦WºÙ"
-newprice["ªÑ²¼¦WºÙ"] <- a["ªÑ²¼¦WºÙ"]
+a <- as.data.frame(gsub("[???L??]", "", a[,1]))
+colnames(a) <- "?Ñ²??W??"
+newprice["?Ñ²??W??"] <- a["?Ñ²??W??"]
 rm(a)
 
 #merge newprice to prediction data
-finatb<- merge(finatb,newprice, by = "ªÑ²¼¦WºÙ")
+finatb<- merge(finatb,newprice, by = "?Ñ²??W??")
 diffmax <-finatb[2]-finatb[6]
-finatb <- cbind(finatb,³Ì°ª»ù®t=diffmax[,1])
+finatb <- cbind(finatb,?Ì°????t=diffmax[,1])
 maxrange <-finatb[,7] /finatb[,6]
 maxrange <- as.data.frame(maxrange)
-colnames(maxrange)[1] <- "»ù®t¤ñ"
-finatb <-as.data.frame( cbind(finatb,»ù®t¤ñ=maxrange[,1]))
-finatb <- arrange(finatb,desc(»ù®t¤ñ))
+colnames(maxrange)[1] <- "???t??"
+finatb <-as.data.frame( cbind(finatb,???t??=maxrange[,1]))
+finatb <- arrange(finatb,desc(???t??))
 write.table(finatb, file = "E:/shu/monday/finaltable.csv",row.names=FALSE, na="",col.names=T, sep=",")
